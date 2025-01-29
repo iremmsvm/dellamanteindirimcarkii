@@ -289,13 +289,13 @@
       const ctx = canvas.getContext('2d');
       const messageEl = document.getElementById('message');
 
-      const segments = [
-        { text: "%5", weight: 40 },
-        { text: "%15", weight: 15 },
-        { text: "%25", weight: 10 },
-        { text: "Kahve İkramı", weight: 17.5 },
-        { text: "Çay İkramı", weight: 17.5 }
-      ];
+      let segments = [
+    { text: "%5", weight: 40 },
+    { text: "%15", weight: 15 },
+    { text: "%25", weight: 10 },
+    { text: "Kahve İkramı", weight: 17.5 },
+    { text: "Çay İkramı", weight: 17.5 }
+];
 
       const colors = ["#21743a", "#21743a", "#21743a", "#21743a", "#21743a"];
       let currentRotation = 0;
@@ -403,10 +403,11 @@
     segments = segments.map(segment => {
         if (segment.text.includes('%')) {
             const number = segment.text.replace('%', '').trim();
-            return { ...segment, text: `% ${number}` };
+            return { ...segment, text: `%${number}` }; // Boşluksuz hale getirildi
         }
         return segment;
     });
+
       function getRandomSegment() {
         const totalWeight = segments.reduce((sum, segment) => sum + segment.weight, 0);
         let random = Math.random() * totalWeight;
@@ -466,11 +467,12 @@
 
       document.getElementById('spin-btn').addEventListener('click', spinWheel);
 
+      // Check if wheel can be spun today
       const today = new Date().toDateString();
       if (localStorage.getItem('lastSpin') === today) {
         messageEl.textContent = "Bu çarkı bugün kullandınız, yarın tekrar deneyebilirsiniz!";
       }
-
+      
       drawWheel();
     </script>
   </body>
